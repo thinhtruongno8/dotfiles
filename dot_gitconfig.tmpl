@@ -1,0 +1,41 @@
+{{- $gitCommitMsgFile := joinPath .chezmoi.homeDir ".gitcommitmsg" -}}
+
+[user]
+	email = {{ .git.email }}
+	name = {{ .git.name }}
+[branch]
+	autosetuprebase = always
+[core]
+	{{- if lookPath "nvim" }}
+	editor = nvim
+	{{- end }}
+	commentChar = ";"
+	autocrlf = false
+[push]
+	default = simple
+[rebase]
+	stat = true
+[merge]
+	ff = only
+	conflictStyle = zdiff3
+[color]
+	diff = on
+[alias]
+	co = checkout
+	cc = commit
+	ss = status
+	rb = rebase
+	cp = cherry-pick
+	br = branch
+	wt = worktree
+	ls = ls-files
+	lsi = ls-files -i -o --exclude-standard --directory
+{{- if stat $gitCommitMsgFile }}
+[commit]
+	template = {{ $gitCommitMsgFile }}
+{{- end }}
+{{- range .git.credentials }}
+[credential {{ .hostname | quote}}]
+	helper = 
+	helper = {{ .helper }}
+{{- end }}
