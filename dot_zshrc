@@ -1,0 +1,71 @@
+# vim: set ts=4 sw=0 sts=0 tw=80 et:
+
+# -------------------------------------------
+# | ZSH CUSTOMIZATIONS                      |
+# -------------------------------------------
+WORDCHARS="*?_.[]~=&;!#$%^(){}<>"
+
+# Command History
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=$HISTSIZE
+setopt SHARE_HISTORY        # import new commands from other session as they appear
+setopt HIST_IGNORE_ALL_DUPS # remove duplicate
+setopt HIST_REDUCE_BLANKS   # trim extra whitespace
+setopt EXTENDED_HISTORY     # store timestamps
+
+# Common Keymaps
+# Use emacs keymaps
+bindkey -e
+
+# Edit command in $EDITOR
+autoload edit-command-line
+zle -N edit-command-line
+bindkey '^Xe' edit-command-line
+
+# Autocompletion
+#   autoload: marks compinit as a function to be loaded from $fpath.
+#   -U: suppresses alias expansion while the function body is parsed.
+#   -z: the function file is read as native zsh code.
+#   compinit: init zsh completion system.
+#   -C: loads the function from cached file without security check
+autoload -Uz compinit && compinit -C
+autoload -Uz bashcompinit && bashcompinit
+# Allow hidden files
+_comp_options+=(globdots)
+# Show menu selection immediately for all completions on ambiguous matches
+zstyle ':completion:*' menu select
+# Select previous menu item with Shift-Tab
+bindkey '^[[Z' reverse-menu-complete
+# _extensions: complete file extensions after a glob like `*.`
+# _complete: commands, files, options, arguments
+# _approximate: fuzzy matching that tolerate typos
+zstyle ':completion:*' completer _extensions _complete _approximate
+# matcher-list: list of match specifications. Zsh tries them in order and
+# stops at the first one that matches. Each quoted string is an attempt.
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+# Completion Performance
+zstyle ':completion:*' rehash true
+zstyle ':completion:*' use-cache true
+zstyle ':completion:*' cache-path ~/.cache/zsh
+
+# -------------------------------------------
+# | ENVIRONMENT VARIABLES                   |
+# -------------------------------------------
+export LANG=C.UTF-8
+export EDITOR=$(command -v nvim || command -v vi)
+export VISUAL=$EDITOR
+export SUDO_EDITOR=$EDITOR
+
+typeset -U path PATH
+path=(~/utils $path)
+path=(~/bin $path)
+path=(~/.local/bin $path)
+path=(~/.bun/bin $path)
+
+# -------------------------------------------
+# | LOAD CUSTOMIZATIONS                     |
+# -------------------------------------------
+for customize in ~/zsh-custom/*.zsh(N); do
+    source $customize
+done

@@ -1,0 +1,18 @@
+#!/usr/bin/zsh
+
+usage() {
+    echo 'USAGE: asm INSTANCE_ID [REGION] [PROFILE]' >&2
+}
+[[ "$1" == "-h" ]] && usage
+
+instance_id=$1
+region=${2:-$AWS_REGION}
+profile=${3:-$AWS_PROFILE}
+
+if [[ -z "$instance_id" || -z "$region" || -z "$profile" ]]; then
+    echo "missing args" >&2
+    usage
+    exit 1
+fi
+
+exec aws ssm start-session --target $instance_id --region $region --profile $profile

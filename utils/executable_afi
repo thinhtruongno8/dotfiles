@@ -1,0 +1,21 @@
+#!/usr/bin/zsh
+
+usage() {
+    echo 'USAGE: afi INSTANCE_IDS [REGION] [PROFILE]' >&2
+}
+[[ "$1" == "-h" ]] && usage
+
+instance_ids="$1"
+region=${2:-$AWS_REGION}
+profile=${3:-$AWS_PROFILE}
+
+if [[ -z "$instance_id" || -z "$region" || -z "$profile" ]]; then
+    echo "missing args" >&2
+    usage
+    exit 1
+fi
+
+exec aws ec2 describe-instances \
+    --filters "Name=tag:Name,Values=$instance_ids" \
+    --query "Reservations[].Instances[].[InstanceId,State.Name]" \
+    --output text
