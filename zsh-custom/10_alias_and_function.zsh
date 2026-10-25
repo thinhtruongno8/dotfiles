@@ -47,4 +47,7 @@ alias rma='tee >(xargs rm -fr)'
 alias pgg='curl https://api.ipify.org'
 
 alias cm='chezmoi'
+alias cmdr='chezmoi diff --reverse'
+alias cmra='chezmoi re-add'
+
 alias reload='source ~/.zshrc'
