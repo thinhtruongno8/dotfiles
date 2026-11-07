@@ -31,7 +31,6 @@ Z.later(
 )
 
 Z.later(function()
-  Z.log('trying to setup outline')
   require('outline').setup({ outline_window = { position = 'left' } })
 end)
 
