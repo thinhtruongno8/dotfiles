@@ -1,0 +1,29 @@
+#!/usr/bin/zsh
+
+if ! command -v fzf &>/dev/null; then
+    echo "fzf not found. Exited." >&2
+    return 1
+fi
+
+candidate=$(tt | fzf)
+
+if [[ -z "$candidate" ]]; then
+    echo "No project selected." >&2
+    return 1
+fi
+
+name=$(basename "$candidate")
+
+if zellij ls | grep "$name"; then
+    cd $candidate
+    zellij attach --create-background $name
+    echo "Created \"$name\" session"
+fi
+
+if [[ -z "$ZELLIJ" ]]; then
+    echo "Attaching to \"$name\" session."
+    zellij attach $name
+else
+    echo "Switching to \"$name\" session."
+    zellij action switch-session $name
+fi
