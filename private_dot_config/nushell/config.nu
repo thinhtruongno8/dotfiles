@@ -27,3 +27,5 @@ alias g = git
 alias glo = git log --oneline
 
 alias cm = chezmoi
+alias cmdr = chezmoi diff --reverse
+alias cmra = chezmoi re-add
