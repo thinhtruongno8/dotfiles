@@ -1,0 +1,11 @@
+#!/usr/bin/zsh
+
+usage() {
+    echo 'USAGE: st TITLE [MSG]'
+}
+[[ "$#" < 1 || "$1" == "-h" ]] && usage
+
+title="$1"
+msg="${2:-done}"
+
+powershell.exe "st.ps1 $title $msg"
