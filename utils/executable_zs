@@ -14,7 +14,7 @@ fi
 
 name=$(basename "$candidate")
 
-if zellij ls | grep "$name"; then
+if ! zellij ls | grep "$name"; then
     cd $candidate
     zellij attach --create-background $name
     echo "Created \"$name\" session"
