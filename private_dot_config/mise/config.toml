@@ -1,0 +1,8 @@
+[tools]
+starship = "latest"
+zellij = "latest"
+neovim = "latest"
+fd = "latest"
+fzf = "latest"
+rg = "latest"
+tree-sitter = "latest"
