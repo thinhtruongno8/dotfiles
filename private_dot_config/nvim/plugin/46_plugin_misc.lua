@@ -83,6 +83,7 @@ Z.on_filetype(
   'markdown',
   function()
     require('render-markdown').setup({
+      enabled = false,
       anti_conceal = { disabled_modes = { 'n' } },
     })
   end
