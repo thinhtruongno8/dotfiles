@@ -140,6 +140,9 @@ Z.later(function()
   end
 
   MiniPick.registry.dotfiles = function()
-    return MiniPick.builtin.files({ source = { cwd = '~/.local/share/chezmoi' } })
+    return MiniPick.builtin.files(
+      {},
+      { source = { cwd = vim.fn.expand('~/.local/share/chezmoi') } }
+    )
   end
 end)
