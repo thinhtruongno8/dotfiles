@@ -20,7 +20,7 @@ local function conform_format()
   local first = vim
     .iter(conform.list_formatters(0))
     :find(function(f)
-      return f.available == 'yes'
+      return f.available == true
     end)
   if not first then
     vim.notify('no formatter available for this file', vim.log.levels.WARN)
