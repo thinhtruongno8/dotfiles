@@ -138,4 +138,8 @@ Z.later(function()
   MiniPick.registry.projects = function()
     return MiniPick.builtin.cli({ command = { 'tt' } })
   end
+
+  MiniPick.registry.dotfiles = function()
+    return MiniPick.builtin.files({ source = { cwd = '~/.local/share/chezmoi' } })
+  end
 end)

@@ -90,6 +90,7 @@ map('n', '<leader>fg', '<Cmd>Pick grep_live<CR>')
 -- stylua: ignore end
 
 map('n', '<leader>fp', '<Cmd>Pick projects<CR>')
+map('n', '<leader>,', '<Cmd>Pick dotfiles<CR>', 'pick dotfiles')
 map('n', '<leader>fm', '<Cmd>lua MiniNotify.show_history()<CR>')
 
 -- plugin: MiniFiles
