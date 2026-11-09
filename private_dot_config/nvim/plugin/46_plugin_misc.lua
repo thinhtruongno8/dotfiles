@@ -30,9 +30,11 @@ Z.later(
   end
 )
 
-Z.later(function()
-  require('outline').setup({ outline_window = { position = 'left' } })
-end)
+Z.later(
+  function()
+    require('outline').setup({ outline_window = { position = 'left' } })
+  end
+)
 
 Z.later(
   function()
