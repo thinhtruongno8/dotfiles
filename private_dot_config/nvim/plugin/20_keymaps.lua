@@ -16,8 +16,19 @@ local function minifiles_open()
 end
 
 local function conform_format()
-  vim.notify('running format')
-  require('conform').format({ async = false, lsp_format = 'fallback' })
+  local conform = require('conform')
+  local first = vim
+    .iter(conform.list_formatters(0))
+    :find(function(f)
+      return f.available == 'yes'
+    end)
+  if not first then
+    vim.notify('no formatter available for this file', vim.log.levels.WARN)
+    return
+  end
+  vim.notify('running format: ' .. first.name)
+  conform.format({ async = false, lsp_format = 'fallback' })
+  vim.notify('format done.')
 end
 
 map('i', '<C-c>', '<Esc>')
