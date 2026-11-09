@@ -1,4 +1,4 @@
-#!/usr/bin/zsh
+#!/usr/bin/env zsh
 
 git pull --prune
 git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D

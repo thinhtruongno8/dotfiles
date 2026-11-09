@@ -1,4 +1,4 @@
-#!/usr/bin/zsh
+#!/usr/bin/env zsh
 
 usage() {
     echo 'USAGE: asm INSTANCE_ID [REGION] [PROFILE]' >&2

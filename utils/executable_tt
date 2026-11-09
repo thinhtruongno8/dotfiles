@@ -1,4 +1,4 @@
-#!/usr/bin/zsh
+#!/usr/bin/env zsh
 
 tail -n+2 ~/utils/myproj.csv | while IFS=, read depth dir; do
     find "$dir" -maxdepth $depth -type d

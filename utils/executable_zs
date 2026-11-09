@@ -1,4 +1,4 @@
-#!/usr/bin/zsh
+#!/usr/bin/env zsh
 
 if ! command -v fzf &>/dev/null; then
     echo "fzf not found. Exited." >&2
