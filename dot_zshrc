@@ -14,15 +14,6 @@ setopt HIST_IGNORE_ALL_DUPS # remove duplicate
 setopt HIST_REDUCE_BLANKS   # trim extra whitespace
 setopt EXTENDED_HISTORY     # store timestamps
 
-# Common Keymaps
-# Use emacs keymaps
-bindkey -e
-
-# Edit command in $EDITOR
-autoload edit-command-line
-zle -N edit-command-line
-bindkey '^Xe' edit-command-line
-
 # Autocompletion
 #   autoload: marks compinit as a function to be loaded from $fpath.
 #   -U: suppresses alias expansion while the function body is parsed.
@@ -48,6 +39,16 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 
 zstyle ':completion:*' rehash true
 zstyle ':completion:*' use-cache true
 zstyle ':completion:*' cache-path ~/.cache/zsh
+
+# Common Keymaps
+# Use emacs keymaps
+bindkey -e
+
+# Edit command in $EDITOR
+# Note: must be bound AFTER compinit, which rebinds ^Xe to _expand_word
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^Xe' edit-command-line
 
 # -------------------------------------------
 # | LOAD CUSTOMIZATIONS                     |
