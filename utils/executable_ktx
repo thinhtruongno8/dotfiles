@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+
+local ctx=(unset $(kubectl config get-contexts -o name))
+ctx=$(print -l $ctx | fzf)
+if [[ "$ctx" == "unset" || -z "$ctx" ]]; then
+    kubectl config unset current-context
+else
+    kubectl config use-context "$ctx"
+fi
