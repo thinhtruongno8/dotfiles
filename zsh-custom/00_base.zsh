@@ -5,6 +5,18 @@ else
     echo "mise not found" >&2
 fi
 
+# env
+export LANG=C.UTF-8
+export EDITOR=$(command -v nvim || command -v vi)
+export VISUAL=$EDITOR
+export SUDO_EDITOR=$EDITOR
+
+typeset -U path PATH
+path=(~/utils $path)
+path=(~/bin $path)
+path=(~/.local/bin $path)
+path=(~/.bun/bin $path)
+
 # prompt
 if command -v starship &>/dev/null; then
     eval "$(starship init zsh)"
