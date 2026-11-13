@@ -35,7 +35,7 @@ alias asl='aws sso login'
 function atx() {
     local ctx=("none" $(aws configure list-profiles))
     ctx=$(print -l $ctx | fzf)
-    if [[ "$ctx" != "none" || -z "$ctx" ]]; then
+    if [[ "$ctx" == "none" || -z "$ctx" ]]; then
         unset AWS_PROFILE
     else
         export AWS_PROFILE="$ctx"
