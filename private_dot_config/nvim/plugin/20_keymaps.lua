@@ -105,7 +105,7 @@ map('n', '<leader>bo', '<Cmd>Outline<CR>', 'show doc outline')
 map('n', '<leader>bf', conform_format, 'conform format')
 
 -- plugin: MeanderingProgrammer/render-markdown.nvim
-map('n', '<leader>bm', '<Cmd>RenderMarkdown toggle<CR>', 'conform format')
+map('n', '<leader>bm', '<Cmd>RenderMarkdown toggle<CR>', 'toggle markdown')
 
 -- plugin: andyg/leap.nvim
 map('nxo', 's', '<Plug>(leap)', 'leap')
