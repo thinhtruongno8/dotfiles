@@ -20,3 +20,8 @@ fi
 if command -v aws_completer &>/dev/null; then
     complete -C $(which aws_completer) aws
 fi
+
+# nvim
+if command -v nvim 2>/dev/null; then
+    export MANPAGER="nvim +Man!"
+fi
