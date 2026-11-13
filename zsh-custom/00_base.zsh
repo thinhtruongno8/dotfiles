@@ -22,6 +22,6 @@ if command -v aws_completer &>/dev/null; then
 fi
 
 # nvim
-if command -v nvim 2>/dev/null; then
+if command -v nvim &>/dev/null; then
     export MANPAGER="nvim +Man!"
 fi
