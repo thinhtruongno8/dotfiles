@@ -54,3 +54,7 @@ vim.api.nvim_create_user_command('Run', function()
   vim.system({ 'tmux', 'send-keys', '-t', ':.2', cmd, 'Enter' })
   vim.notify('run: ok. ' .. cmd)
 end, {})
+
+vim.api.nvim_create_user_command('F', function()
+  vim.fn.setreg('+', vim.fn.expand('%:p'))
+end, {})
