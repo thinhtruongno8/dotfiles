@@ -6,9 +6,9 @@
 
 if [[ $2 == "-1" ]]; then
     tt | fzf -f "$1" | head -n 1
-    return
+    exit
 fi
 
-local -a opts=()
+opts=()
 (( $# )) && opts=(-1 -q "$1")
 tt | fzf "${opts[@]}"
