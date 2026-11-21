@@ -40,6 +40,9 @@ Z.later(
   function()
     require('conform').setup({
       notify_on_error = true,
+      default_format_opts = {
+        lsp_format = 'fallback',
+      },
       formatters_by_ft = {
         lua = { 'stylua' },
         python = { 'ruff_format' },
@@ -91,8 +94,15 @@ Z.on_filetype(
   end
 )
 
-Z.later(function()
-  require('tiny-inline-diagnostic').setup()
+Z.now(function()
+  require('tiny-inline-diagnostic').setup({
+    -- options = {
+    --   multilines = {
+    --     enabled = true,
+    --     always_show = true,
+    --   }
+    -- }
+  })
   vim.diagnostic.config({ virtual_text = false })
 end)
 

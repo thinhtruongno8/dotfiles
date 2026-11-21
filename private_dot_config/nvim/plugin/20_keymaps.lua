@@ -17,18 +17,18 @@ end
 
 local function conform_format()
   local conform = require('conform')
-  local first = vim
-    .iter(conform.list_formatters(0))
-    :find(function(f)
-      return f.available == true
-    end)
-  if not first then
+  local fmts, use_lsp = conform.list_formatters_to_run(0)
+  if #fmts < 1 and not use_lsp then
     vim.notify('no formatter available for this file', vim.log.levels.WARN)
     return
   end
-  vim.notify('running format: ' .. first.name)
-  conform.format({ async = false, lsp_format = 'fallback' })
-  vim.notify('format done.')
+  local fmt = 'lsp'
+  if #fmts > 0 then
+    fmt = fmts[1].name
+  end
+  vim.notify('formatting with ' .. fmt)
+  conform.format()
+  vim.notify('formatting done.')
 end
 
 map('i', '<C-c>', '<Esc>')
