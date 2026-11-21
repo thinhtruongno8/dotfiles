@@ -13,7 +13,6 @@ alias glo='git log --oneline'
 alias gloga='git log --oneline --graph --all'
 
 # Multiplexer
-alias t='tmux'
 alias z='zellij'
 
 # Nvim
@@ -51,3 +50,11 @@ alias cmdr='chezmoi diff --reverse'
 alias cmra='chezmoi re-add'
 
 alias reload='source ~/.zshrc'
+
+function t() {
+    result=$(to $1 -1) && \builtin cd -- $result
+}
+
+function ti() {
+    result=$(to $1) && \builtin cd -- $result
+}

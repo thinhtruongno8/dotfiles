@@ -1,0 +1,14 @@
+#!/usr/bin/env zsh
+
+# to        -> interactive
+# to dir    -> interactive + query 'dir' + return if 1 match
+# to dir -1 -> query 'dir' + return even there are multiple matches
+
+if [[ $2 == "-1" ]]; then
+    tt | fzf -f "$1" | head -n 1
+    return
+fi
+
+local -a opts=()
+(( $# )) && opts=(-1 -q "$1")
+tt | fzf "${opts[@]}"
