@@ -51,6 +51,11 @@ alias cmra='chezmoi re-add'
 
 alias reload='source ~/.zshrc'
 
+function mkcd() {
+    mkdir -- "$@"
+    \builtin cd -- "$@"
+}
+
 function t() {
     result=$(to $1 -1) && \builtin cd -- $result
 }
