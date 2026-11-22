@@ -103,7 +103,7 @@ disabled = true
 
 [kubernetes]
 disabled = false
-format = '[$symbol($context)(\($namespace\))]($style)'
+format = '[$symbol($context)($namespace )]($style)'
 symbol = '󱃾 '
 style = 'green'
 
@@ -112,7 +112,7 @@ format = '[$symbol($profile )($region )($duration )]($style)'
 symbol = '󰸏 '
 
 [gcloud]
-format = '[($symbol)($domain )($project)]($style)'
+format = '[$symbol($domain )($project )]($style)'
 symbol = '󱇶 '
 style = 'blue'
 
