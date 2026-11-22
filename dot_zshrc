@@ -31,7 +31,7 @@ bindkey '^[[Z' reverse-menu-complete
 # _extensions: complete file extensions after a glob like `*.`
 # _complete: commands, files, options, arguments
 # _approximate: fuzzy matching that tolerate typos
-zstyle ':completion:*' completer _extensions _complete _approximate
+zstyle ':completion:*' completer _extensions _complete
 # matcher-list: list of match specifications. Zsh tries them in order and
 # stops at the first one that matches. Each quoted string is an attempt.
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
