@@ -1,4 +1,4 @@
-Z.now_if_args(function() require('guess-indent').setup({}) end)
+Z.now(function() require('guess-indent').setup({}) end)
 
 Z.on_filetype('terminal', function()
   require('terminal').setup({})
