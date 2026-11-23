@@ -410,6 +410,10 @@ Z.on_filetype(
     require('render-markdown').setup({
       enabled = false,
       anti_conceal = { disabled_modes = { 'n' } },
+      pipe_table = {
+        enabled = true,
+        wrap = false,
+      }
     })
   end
 )
