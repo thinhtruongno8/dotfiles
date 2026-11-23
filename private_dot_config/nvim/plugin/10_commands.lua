@@ -60,3 +60,108 @@ vim.api.nvim_create_user_command(
   function() vim.fn.setreg('+', vim.fn.expand('%:p')) end,
   {}
 )
+
+--- given a filepath, return a source if it's a target and vice versa. Return an
+--- empty string if current file is not managed by chezmoi.
+--- @param path string
+--- @param target_only boolean
+--- @return string
+--- @return 'source'|'target'|''
+local function cm_get_src_or_target(path, target_only)
+  -- f(i, y) -> '', ''
+  -- f(i, n) -> '', ''
+  -- f(s, y) -> t, 'target'
+  -- f(s, n) -> t, 'target'
+  -- f(t, y) -> t, 'target'
+  -- f(t, n) -> s, 'source'
+
+  local res = vim.system({ 'chezmoi', 'target-path', path }):wait(2000)
+  if res.code == 0 then
+    local target, _ = res.stdout:gsub('\n*', '')
+    return target, 'target'
+  end
+
+  res = vim.system({ 'chezmoi', 'source-path', path }):wait(2000)
+  if res.code ~= 0 then return '', '' end
+
+  if target_only then return path, 'target' end
+
+  local source, _ = res.stdout:gsub('\n*', '')
+  return source, 'source'
+end
+
+vim.api.nvim_create_user_command('Cm', function()
+  local curr_file = vim.fn.expand('%:p')
+  local counter, counter_type = cm_get_src_or_target(curr_file, false)
+  if counter_type == '' then
+    vim.notify(curr_file .. ' not managed by chezmoi')
+    return
+  end
+
+  vim.notify('opening (' .. counter_type .. ') ' .. counter)
+  vim.cmd('e ' .. counter)
+end, {})
+
+vim.api.nvim_create_user_command('Cmdiff', function()
+  local curr_file = vim.fn.expand('%:p')
+  local counter, counter_type = cm_get_src_or_target(curr_file, false)
+  if counter_type == '' then
+    vim.notify(curr_file .. ' not managed by chezmoi')
+    return
+  end
+
+  local cm_diff = { 'chezmoi', 'diff' }
+  if counter_type == 'source' then
+    cm_diff[#cm_diff + 1] = '--reverse'
+    cm_diff[#cm_diff + 1] = curr_file
+  else
+    cm_diff[#cm_diff + 1] = counter
+  end
+
+  vim.notify(table.concat(cm_diff, ' '))
+  vim.system(cm_diff, { text = true }, function(obj)
+    if obj.code ~= 0 then
+      vim.notify('Cmdiff error: ' .. obj.stderr)
+      return
+    end
+    local lines = vim.split(obj.stdout or '', '\r?\n', { trimempty = true })
+    vim.schedule(function()
+      local buf = vim.api.nvim_create_buf(false, true)
+      vim.bo[buf].filetype = 'diff'
+      vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+      vim.api.nvim_set_current_buf(buf)
+    end)
+  end)
+end, {})
+
+vim.api.nvim_create_user_command('Cma', function()
+  local curr_file = vim.fn.expand('%:p')
+  local target, target_type = cm_get_src_or_target(curr_file, true)
+  if target_type ~= 'target' then
+    vim.notify(curr_file .. ' not managed by chezmoi')
+    return
+  end
+  vim.notify('chezmoi apply ' .. target)
+  vim.system({ 'chezmoi', 'apply', target }, { text = true }, function(obj)
+    if obj.code ~= 0 then
+      vim.notify('Cma error: ' .. obj.stderr)
+      return
+    end
+  end)
+end, {})
+
+vim.api.nvim_create_user_command('Cmra', function()
+  local curr_file = vim.fn.expand('%:p')
+  local target, target_type = cm_get_src_or_target(curr_file, true)
+  if target_type ~= 'target' then
+    vim.notify(curr_file .. ' not managed by chezmoi')
+    return
+  end
+  vim.notify('chezmoi re-add ' .. target)
+  vim.system({ 'chezmoi', 're-add', target }, { text = true }, function(obj)
+    if obj.code ~= 0 then
+      vim.notify('Cmra error: ' .. obj.stderr)
+      return
+    end
+  end)
+end, {})
