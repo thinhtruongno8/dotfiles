@@ -55,6 +55,8 @@ vim.api.nvim_create_user_command('Run', function()
   vim.notify('run: ok. ' .. cmd)
 end, {})
 
-vim.api.nvim_create_user_command('F', function()
-  vim.fn.setreg('+', vim.fn.expand('%:p'))
-end, {})
+vim.api.nvim_create_user_command(
+  'F',
+  function() vim.fn.setreg('+', vim.fn.expand('%:p')) end,
+  {}
+)
