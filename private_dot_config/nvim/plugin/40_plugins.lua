@@ -432,6 +432,10 @@ Z.now(function()
   require('ibl').setup()
   local exclude_fts = require('ibl.config').default_config.exclude.filetypes
   require('ibl').overwrite({
+    scope = {
+      show_start = false,
+      show_end = false,
+    },
     exclude = {
       filetypes = vim.tbl_filter(
         function(ft) return ft ~= 'help' end,
