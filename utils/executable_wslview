@@ -1,0 +1,28 @@
+#!/usr/bin/env zsh
+# xdg-open replacement for WSL. Opens http(s) URLs in the default Windows browser.
+# Install: cp xdg-open ~/.local/bin/ && chmod +x ~/.local/bin/xdg-open
+#          (~/.local/bin must come first in PATH)
+
+emulate -L zsh
+setopt no_unset
+
+die() { print -u2 -r -- "xdg-open: $1"; exit 1 }
+
+(( $# == 1 )) || die "usage: xdg-open URL"
+typeset url=$1
+
+(( ${#url} <= 8192 )) || die "URL too long"
+
+# Strict allowlist: http(s) scheme, non-empty host, then URL-safe characters only.
+# Rejects whitespace, control chars, quotes, backtick, $, (), [], {}, \, ^, |, <, >.
+typeset -r re='^[hH][tT][tT][pP][sS]?://[A-Za-z0-9._~%@:-]+([/?#][A-Za-z0-9._~:/?#@!&=+,;%*-]*)?$'
+[[ $url =~ $re ]] || die "refusing to open: only plain http(s) URLs are allowed"
+
+# Absolute path avoids a hijacked explorer.exe earlier in $PATH.
+typeset explorer=/mnt/c/Windows/explorer.exe
+[[ -x $explorer ]] || explorer=$(command -v explorer.exe) || die "explorer.exe not found (is WSL interop enabled?)"
+
+# explorer.exe takes the URL as a plain argument. No cmd.exe or PowerShell parsing.
+# It returns exit code 1 even on success, so the status is ignored.
+"$explorer" "$url" >/dev/null 2>&1
+exit 0
