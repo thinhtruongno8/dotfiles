@@ -29,3 +29,5 @@ alias glo = git log --oneline
 alias cm = chezmoi
 alias cmdr = chezmoi diff --reverse
 alias cmra = chezmoi re-add
+
+use ($nu.default-config-dir | path join mise.nu)
